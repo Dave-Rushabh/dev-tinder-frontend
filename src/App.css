@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@import "tailwindcss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.custom-container {
+  @apply p-4 w-full;
+}
+
+.rounded-edges {
+  @apply rounded-lg;
+}
+
+.card-body {
+  padding: 8px !important;
+}
