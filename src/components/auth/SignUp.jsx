@@ -71,7 +71,7 @@ const SignUp = () => {
       console.error(error, "error signin up");
       triggerAlert({
         type: "error",
-        message: error.response?.data?.message || "Failed to sign up",
+        message: error.response?.data || "Failed to sign up",
       });
     } finally {
       setLoading(false);
