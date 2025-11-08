@@ -1,0 +1,28 @@
+import { createContext, useContext, useState, useCallback } from "react";
+
+const AlertContext = createContext();
+
+export const AlertProvider = ({ children }) => {
+  const [alert, setAlert] = useState(null);
+
+  const triggerAlert = useCallback(({ type = "info", message = "" }) => {
+    setAlert({ type, message });
+    setTimeout(() => setAlert(null), 7000); // auto close
+  }, []);
+
+  return (
+    <AlertContext.Provider value={{ triggerAlert }}>
+      {children}
+      {alert && (
+        <div
+          role="alert"
+          className={`alert alert-${alert.type} alert-soft fixed top-2 right-4 shadow-xl w-fit animate-fade-in`}
+        >
+          <span>{alert.message}</span>
+        </div>
+      )}
+    </AlertContext.Provider>
+  );
+};
+
+export const useAlert = () => useContext(AlertContext);

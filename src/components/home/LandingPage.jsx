@@ -16,7 +16,7 @@ const LandingPage = () => {
               collaborate — professionally.
             </p>
             <div className="w-40">
-              <Link to={`/sign-up`} className="btn btn-neutral btn-wide">
+              <Link to={`/auth/sign-up`} className="btn btn-neutral btn-wide">
                 Get Started
               </Link>
             </div>
@@ -71,7 +71,7 @@ const LandingPage = () => {
         <p className="text-lg mb-8 px-6 md:px-0">
           Sign up today and start connecting with developers who inspire you.
         </p>
-        <Link to={`/sign-up`} className="btn btn-neutral btn-wide">
+        <Link to={`/auth/sign-up`} className="btn btn-neutral btn-wide">
           Join Now
         </Link>
       </section>
