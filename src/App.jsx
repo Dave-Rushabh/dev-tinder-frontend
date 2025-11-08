@@ -3,12 +3,11 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { authData } from "./redux/selectors/auth";
 
+import AuthWrapper from "./AuthWrapper";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
 import Body from "./components/BodyWrapper";
-import Footer from "./components/common/Footer";
 import LandingPage from "./components/home/LandingPage";
-import AuthWrapper from "./AuthWrapper";
 
 function App() {
   const { isLoggedIn } = useSelector(authData);
