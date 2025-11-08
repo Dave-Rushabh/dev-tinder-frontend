@@ -8,6 +8,10 @@ import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
 import Body from "./components/BodyWrapper";
 import LandingPage from "./components/home/LandingPage";
+import Feed from "./components/Feed/Feed";
+import ViewOrEditProfile from "./components/profile/ViewOrEditProfile";
+import Matches from "./components/matches";
+import ConnectionRequests from "./components/requests";
 
 function App() {
   const { isLoggedIn } = useSelector(authData);
@@ -41,8 +45,10 @@ function App() {
             {/* 🔐 Protected Routes */}
             <Route path="/" element={<Body />}>
               <Route index element={<Navigate to="/feed" replace />} />
-              <Route path="feed" element={<>feed</>} />
-              <Route path="match" element={<>match</>} />
+              <Route path="profile" element={<ViewOrEditProfile />} />
+              <Route path="feed" element={<Feed />} />
+              <Route path="matches" element={<Matches />} />
+              <Route path="requests" element={<ConnectionRequests />} />
             </Route>
 
             {/* 🚫 Redirect logged-in users away from public routes */}

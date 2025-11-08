@@ -14,11 +14,10 @@ export const AlertProvider = ({ children }) => {
     <AlertContext.Provider value={{ triggerAlert }}>
       {children}
       {alert && (
-        <div
-          role="alert"
-          className={`alert alert-${alert.type} alert-soft fixed top-2 right-4 shadow-xl w-fit animate-fade-in`}
-        >
-          <span>{alert.message}</span>
+        <div className="toast toast-top toast-center">
+          <div className={`alert alert-${alert.type}`}>
+            <span>{alert.message}</span>
+          </div>
         </div>
       )}
     </AlertContext.Provider>

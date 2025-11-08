@@ -36,10 +36,13 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-neutral shadow-lg px-4">
+    <div className="navbar bg-neutral shadow-lg px-4 sticky top-0 z-10">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">DevTinder</a>
+        <Link to={`/feed`} className="btn btn-ghost text-xl text-accent">
+          DevTinder
+        </Link>
       </div>
+      <div className="mr-4">Welcome ! {firstName}</div>
       <div className="flex gap-2">
         <div className="dropdown dropdown-end">
           <div
@@ -53,17 +56,17 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-accent-content rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
               {/* goes to my profile */}
-              <a className="font-extrabold text-lg border-2 border-accent mb-8 text-accent cursor-auto">
+              <a className="font-extrabold text-lg border-2 border-accent mb-8 text-accent cursor-auto bg-base-200">
                 {firstName} {lastName}
               </a>
             </li>
             <li>
               {/* goes to my feed */}
-              <a cl>My Profile</a>
+              <Link to={`/profile`}>My Profile</Link>
             </li>
             <li>
               {/* goes to my feed */}
@@ -71,11 +74,11 @@ const Navbar = () => {
             </li>
             <li>
               {/* goes to my matches */}
-              <Link to={"/match"}>My Matches</Link>
+              <Link to={"/matches"}>My Matches</Link>
             </li>
             <li>
               {/* goes to my connection requests */}
-              <a className="justify-between">My Connection Requests</a>
+              <Link to={`/requests`}>My Connection Requests</Link>
             </li>
             <li className="mt-8 bg-accent text-neutral font-bold rounded-edges">
               <button
