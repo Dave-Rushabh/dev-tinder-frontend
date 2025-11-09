@@ -30,7 +30,7 @@ const ConnectionRequests = () => {
         dispatch(REDUX_REMOVE_REQUEST_BY_ID({ requestToBeRemoved: requestId }));
         triggerAlert({
           type: "success",
-          message: `Connection request ${status.toLowerCase()}ed successfully`,
+          message: `Connection request ${status.toLowerCase()} successfully`,
         });
       }
     } catch (error) {

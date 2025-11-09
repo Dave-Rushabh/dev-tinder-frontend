@@ -1,5 +1,11 @@
+import axios from "axios";
+import { useAlert } from "../../contexts/Alert";
+import { REDUX_REMOVE_FROM_FEED_BY_ID } from "../../redux/slices/feedSlice";
+import { useDispatch } from "react-redux";
+
 const ProfileCard = ({ profileData }) => {
   const {
+    _id,
     firstName,
     lastName,
     age,
@@ -8,6 +14,36 @@ const ProfileCard = ({ profileData }) => {
     about,
     skills = [],
   } = profileData;
+
+  const { triggerAlert } = useAlert();
+  const dispatch = useDispatch();
+
+  const sendRequest = async ({ status, userId }) => {
+    try {
+      const resp = await axios.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/connections/request/send/${status}/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (resp.status === 201) {
+        dispatch(REDUX_REMOVE_FROM_FEED_BY_ID({ userToBeRemoved: userId }));
+        triggerAlert({
+          type: "success",
+          message: `Connection request ${status.toLowerCase()} successfully`,
+        });
+      }
+    } catch (error) {
+      console.error(error, "error in processing connection request");
+      triggerAlert({
+        type: "error",
+        message:
+          "Something went wrong while processing your connection request",
+      });
+    }
+  };
 
   return (
     <div className="card w-full max-w-sm bg-base-100 text-neutral-content shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-accent cursor-pointer min-h-80">
@@ -38,8 +74,22 @@ const ProfileCard = ({ profileData }) => {
         )}
 
         <div className="flex justify-between gap-8 w-full mt-8">
-          <button className="btn btn-outline btn-error">Reject</button>
-          <button className="btn btn-outline btn-accent">Accept</button>
+          <button
+            className="btn btn-outline btn-error"
+            onClick={() => {
+              sendRequest({ status: "ignored", userId: _id });
+            }}
+          >
+            Ignore
+          </button>
+          <button
+            className="btn btn-outline btn-accent"
+            onClick={() => {
+              sendRequest({ status: "interested", userId: _id });
+            }}
+          >
+            Interested
+          </button>
         </div>
       </div>
     </div>
