@@ -3,7 +3,10 @@ import { requestsData } from "../../redux/selectors/requests";
 import { useEffect, useState } from "react";
 import { useAlert } from "../../contexts/Alert";
 import axios from "axios";
-import { REDUX_SET_REQUESTS } from "../../redux/slices/requestsSlice";
+import {
+  REDUX_REMOVE_REQUEST_BY_ID,
+  REDUX_SET_REQUESTS,
+} from "../../redux/slices/requestsSlice";
 import Loader from "../common/Loader";
 import { formatDate } from "../../utils";
 
@@ -12,6 +15,33 @@ const ConnectionRequests = () => {
   const { data: requests } = useSelector(requestsData);
   const [isLoading, setIsLoading] = useState(false);
   const { triggerAlert } = useAlert();
+
+  const reviewRequest = async ({ status, requestId }) => {
+    try {
+      const resp = await axios.patch(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/connections/request/review/${status}/${requestId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (resp.status === 200) {
+        dispatch(REDUX_REMOVE_REQUEST_BY_ID({ requestToBeRemoved: requestId }));
+        triggerAlert({
+          type: "success",
+          message: `Connection request ${status.toLowerCase()}ed successfully`,
+        });
+      }
+    } catch (error) {
+      console.error(error, "error in processing connection request");
+      triggerAlert({
+        type: "error",
+        message:
+          "Something went wrong while processing your connection request",
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchMyRequests = async () => {
@@ -66,11 +96,27 @@ const ConnectionRequests = () => {
                         request received on {formatDate(createdAt)}
                       </div>
                       <div className="mt-8 flex gap-4">
-                        <button className="btn btn-outline btn-error">
+                        <button
+                          className="btn btn-outline btn-error"
+                          onClick={() => {
+                            reviewRequest({
+                              status: "rejected",
+                              requestId: _id,
+                            });
+                          }}
+                        >
                           Reject
                         </button>
-                        <button className="btn btn-outline btn-accent">
-                          Reject
+                        <button
+                          className="btn btn-outline btn-accent"
+                          onClick={() => {
+                            reviewRequest({
+                              status: "accepted",
+                              requestId: _id,
+                            });
+                          }}
+                        >
+                          Accept
                         </button>
                       </div>
                     </div>

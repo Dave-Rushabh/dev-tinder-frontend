@@ -39,7 +39,7 @@ const ProfileCard = ({ profileData }) => {
 
         <div className="flex justify-between gap-8 w-full mt-8">
           <button className="btn btn-outline btn-error">Reject</button>
-          <button className="btn btn-outline btn-accent">Reject</button>
+          <button className="btn btn-outline btn-accent">Accept</button>
         </div>
       </div>
     </div>

@@ -10,9 +10,19 @@ const requestsSlice = createSlice({
       const { data } = action.payload;
       state.data = data;
     },
+    REDUX_REMOVE_REQUEST_BY_ID: (state, action) => {
+      const { requestToBeRemoved } = action.payload;
+
+      const requests = [...state.data].filter(
+        (req) => req._id !== requestToBeRemoved
+      );
+
+      state.data = requests;
+    },
   },
 });
 
-export const { REDUX_SET_REQUESTS } = requestsSlice.actions;
+export const { REDUX_SET_REQUESTS, REDUX_REMOVE_REQUEST_BY_ID } =
+  requestsSlice.actions;
 
 export default requestsSlice.reducer;
