@@ -5,16 +5,22 @@ const feedSlice = createSlice({
   initialState: {
     feed: null,
     pagination: {
-      currentPage: 0,
+      currentPage: 1,
       limit: 10,
+      totalUsers: 0,
     },
   },
   reducers: {
     REDUX_SET_FEED: (state, action) => {
-      const { data, currentPage } = action.payload;
+      const { data, totalUsers } = action.payload;
 
       state.feed = data;
-      state.pagination.currentPage = currentPage + 1;
+      state.pagination.totalUsers = totalUsers;
+    },
+    REDUX_FETCH_NEXT_PAGE: (state, action) => {
+      const { nextPage } = action.payload;
+
+      state.pagination.currentPage = nextPage;
     },
     REDUX_REMOVE_FROM_FEED_BY_ID: (state, action) => {
       const { userToBeRemoved } = action.payload;
@@ -28,7 +34,10 @@ const feedSlice = createSlice({
   },
 });
 
-export const { REDUX_SET_FEED, REDUX_REMOVE_FROM_FEED_BY_ID } =
-  feedSlice.actions;
+export const {
+  REDUX_SET_FEED,
+  REDUX_REMOVE_FROM_FEED_BY_ID,
+  REDUX_FETCH_NEXT_PAGE,
+} = feedSlice.actions;
 
 export default feedSlice.reducer;

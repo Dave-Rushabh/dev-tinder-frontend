@@ -8,6 +8,7 @@ import { useAlert } from "../../contexts/Alert";
 import Loader from "../common/Loader";
 import { REDUX_HANDLE_LOG_IN } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import DOMPurify from "dompurify";
 
 // ✅ Zod schema for validation
 const loginSchema = z.object({
@@ -40,11 +41,16 @@ const Login = () => {
 
     try {
       const { email, password } = data;
+
+      // Sanitize all user inputs
+      const sanitizedEmail = DOMPurify.sanitize(email);
+      const sanitizedPassword = DOMPurify.sanitize(password);
+
       const resp = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
         {
-          emailId: email,
-          password,
+          emailId: sanitizedEmail,
+          password: sanitizedPassword,
         },
         { withCredentials: true }
       );

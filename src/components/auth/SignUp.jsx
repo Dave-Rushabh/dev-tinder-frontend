@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAlert } from "../../contexts/Alert";
 import Loader from "../common/Loader";
+import DOMPurify from "dompurify";
 
 // ✅ Validation Schema
 const signUpSchema = z.object({
@@ -53,9 +54,18 @@ const SignUp = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
+      const sanitizedData = {
+        firstName: DOMPurify.sanitize(data.firstName),
+        lastName: DOMPurify.sanitize(data.lastName),
+        emailId: DOMPurify.sanitize(data.emailId),
+        password: DOMPurify.sanitize(data.password),
+        age: DOMPurify.sanitize(data.age),
+        gender: DOMPurify.sanitize(data.gender),
+      };
+
       const resp = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/sign-up`,
-        data,
+        sanitizedData,
         { withCredentials: true }
       );
       if (resp.status === 201) {
